@@ -1,0 +1,27 @@
+var host = "<%= "#{request.protocol}#{request.host_with_port}" %>";
+
+function get_url(segments, options, overrides) {
+    
+  for (var property in overrides) {
+    options[property] = overrides[property];
+  }
+  
+  for (var prop in options) {
+		segments = segments.replace(":"+prop, options[prop]);
+  };
+	
+	path = segments.replace("//", "/").substring(0, segments.length - 2);
+	return host+path;
+}
+
+<% ActionController::Routing::Routes.named_routes.each do |name, route| -%>
+function <%= name %>_url(overrides) {
+  var options = {
+  <% route.significant_keys.each do |key| -%>
+    <%= key %>: <%= route.defaults[key].nil? ? "''" : "'#{route.defaults[key]}'" %>,
+  <% end -%>
+  }
+  return get_url("<%= route.segments.collect(&:to_s) %>", options, overrides);
+
+}
+<% end -%>

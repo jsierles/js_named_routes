@@ -1,0 +1,23 @@
+Named Routes in Javascript
+==========================
+
+This uncreatively named plugin installs a controller and view which creates a methods for generating named routes
+in javascript.
+
+== USAGE
+
+This plugin injects a route automatically for your JS named routes controller.
+
+Install, visit the following URL:
+
+http://myapp.com/named_routes.js
+
+Use that URL in a script tag in your app. No caching or anything, sorry.
+
+In your javascript, you can do:
+
+some_named_route({id: 5, name: 'joshua'})
+
+== CREDITS
+
+Some code and the idea came from http://gohanlon.com/2007/4/10/using-rails-named-routes-from-client-side-javascript
