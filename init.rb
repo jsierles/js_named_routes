@@ -1,6 +1,9 @@
 require 'named_routes'
+require 'asset_tag_helper'
 
-::Dispatcher.to_prepare :named_routes_route do
+require 'dispatcher'
+
+ActionController::Dispatcher.to_prepare :named_routes_route do
   ::NamedRoutes::ControllerMethods.add_routes
 end
 

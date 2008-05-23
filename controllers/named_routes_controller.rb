@@ -1,6 +1,7 @@
 class NamedRoutesController < ActionController::Base
+  caches_page :generate
 
-  self.template_root = File.join(File.dirname(__FILE__), '../views/named_routes')
+  self.view_paths = File.join(File.dirname(__FILE__), '../views/named_routes')
   layout nil
 
   def generate
