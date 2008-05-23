@@ -1,27 +1,53 @@
 var host = "<%= "#{request.protocol}#{request.host_with_port}" %>";
 
-function get_url(segments, options, overrides) {
-    
+function get_path(segments, options, overrides) {
+  var extras = null;
+
   for (var property in overrides) {
-    options[property] = overrides[property];
+    if (options[property] != null) {
+      options[property] = overrides[property];
+    }
+    else {
+      extras = extras ? extras : {};
+      extras[property] = overrides[property]
+    }
   }
-  
   for (var prop in options) {
 		segments = segments.replace(":"+prop, options[prop]);
   };
 	
-	path = segments.replace("//", "/").substring(0, segments.length - 2);
-	return host+path;
+	var query=""
+	if (extras) {
+	  query += "?"
+	  for (var extra in extras) {
+	    query += extra + "=" + extras[extra] + "&";
+	  }
+	  query = query.substring(0, query.length-1);
+	}
+	
+	var path = segments;
+	while (path[path.length-1] == "/") {
+	  path = path.substring(0, path.length-1);
+	}
+	return path+query;
+}
+
+function get_url(segments, options, overrides) {
+  return host + get_path(segments, options, overrides);
 }
 
 <% ActionController::Routing::Routes.named_routes.each do |name, route| -%>
 function <%= name %>_url(overrides) {
+  return host + <%= name %>_path(overrides)
+}
+function <%= name %>_path(overrides) {
   var options = {
   <% route.significant_keys.each do |key| -%>
     <%= key %>: <%= route.defaults[key].nil? ? "''" : "'#{route.defaults[key]}'" %>,
   <% end -%>
   }
-  return get_url("<%= route.segments.collect(&:to_s) %>", options, overrides);
-
+  return get_path("<%= route.segments.collect(&:to_s) %>", options, overrides);
 }
+
+
 <% end -%>
