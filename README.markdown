@@ -1,13 +1,11 @@
 Named Routes in Javascript
 ==========================
 
-This uncreatively named plugin installs a controller and view which creates handy javascript methods for generating named routes in javascript.
+This uncreatively named plugin installs a controller and view which creates handy javascript methods for generating named routes in javascript. For example, if you had the following RESTful route defined in `routes.rb`:
 
-For example, if you have the following route defined in `routes.rb`:
+    map.resources :posts
 
-map.resources :posts
-
-You'd get these familiar-looking javascript URL helpers:
+You'd get these (and other) familiar-looking javascript URL helpers:
 
     posts_url() => "http://localhost:3000/posts"
     post_url( {id: 3} ) => 'http://localhost:3000/posts/3'
@@ -53,4 +51,4 @@ clear the cached file:
 
 ### CREDITS
 
-Some code and the idea came from [Using Rails Routes from Client-Side JavaScript](http://gohanlon.com/2007/7/15/using-rails-named-routes-from-client-side-javascript) from [gohanlon.com](http://gohanlon.com).
+Originally authored by Joshua Siereles with some code and the idea coming from [Using Rails Routes from Client-Side JavaScript](http://gohanlon.com/2007/7/15/using-rails-named-routes-from-client-side-javascript) by [Galen O'Hanlon](http://gohanlon.com). Some enhancements and Rails 2.1 compatibility added by [Galen O'Hanlon](http://gohanlon.com).
