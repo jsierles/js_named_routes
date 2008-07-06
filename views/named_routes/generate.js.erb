@@ -1,53 +1,58 @@
-var host = "<%= "#{request.protocol}#{request.host_with_port}" %>";
 
-function get_path(segments, options, overrides) {
-  var extras = null;
+var Routing = {
+	host: <%= "#{request.protocol}#{request.host_with_port}".inspect %>,
 
-  for (var property in overrides) {
-    if (options[property] != null) {
-      options[property] = overrides[property];
-    }
-    else {
-      extras = extras ? extras : {};
-      extras[property] = overrides[property]
-    }
-  }
-  for (var prop in options) {
-		segments = segments.replace(":"+prop, options[prop]);
-  };
-	
-	var query=""
-	if (extras) {
-	  query += "?"
-	  for (var extra in extras) {
-	    query += extra + "=" + extras[extra] + "&";
-	  }
-	  query = query.substring(0, query.length-1);
-	}
-	
-	var path = segments;
-	while (path[path.length-1] == "/") {
-	  path = path.substring(0, path.length-1);
-	}
-	return path+query;
-}
+	get_path: function (segments, options, overrides) {
+		var extras = null;
 
-function get_url(segments, options, overrides) {
-  return host + get_path(segments, options, overrides);
-}
+		for (var property in overrides) {
+			if (options[property] != null) {
+				options[property] = overrides[property];
+			}
+			else {
+				extras = extras ? extras : {};
+				extras[property] = overrides[property]
+			}
+		}
+
+		for (var prop in options) {
+			segments = segments.replace(":"+prop, options[prop]);
+		}
+
+		var query="";
+		if (extras) {
+			query += "?"
+			for (var extra in extras) {
+				query += extra + "=" + extras[extra] + "&";
+			}
+			query = query.substring(0, query.length-1);
+		}
+
+		var path = segments;
+		while (path[path.length - 1] == "/") {
+			path = path.substring(0, path.length - 1);
+		}
+		return path + query;
+	},
+
+	get_url: function (segments, options, overrides) {
+		return Routing.host + Routing.get_path(segments, options, overrides);
+	},
 
 <% ActionController::Routing::Routes.named_routes.each do |name, route| -%>
-function <%= name %>_url(overrides) {
-  return host + <%= name %>_path(overrides)
-}
-function <%= name %>_path(overrides) {
-  var options = {
-  <% route.significant_keys.each do |key| -%>
-    <%= key %>: <%= route.defaults[key].nil? ? "''" : "'#{route.defaults[key]}'" %>,
-  <% end -%>
-  }
-  return get_path("<%= route.segments.collect(&:to_s) %>", options, overrides);
-}
+	<%= name %>_url: function (overrides) {
+		return Routing.host + Routing.<%= name %>_path(overrides)
+	},
 
+	<%= name %>_path: function (overrides) {
+	  var options = {
+	  <% route.significant_keys.each do |key| -%>
+	    <%= key %>: <%= route.defaults[key].nil? ? "''" : "'#{route.defaults[key]}'" %>,
+	  <% end -%>
+	  };
+		return Routing.get_path("<%= route.segments.collect(&:to_s) %>", options, overrides);
+	},
 
 <% end -%>
+
+};
