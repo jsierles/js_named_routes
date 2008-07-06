@@ -6,7 +6,7 @@ require 'dispatcher'
 ActionView::Helpers::AssetTagHelper.send(:include, JsNamedRoutes::AssetTagHelper)
 
 ActionController::Dispatcher.to_prepare :named_routes_route do
-  ::NamedRoutes::ControllerMethods.add_routes
+  JsNamedRoutes::ControllerMethods.add_routes
 end
 
 controller_path = File.join(File.dirname(__FILE__), 'controllers')
