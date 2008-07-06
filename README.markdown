@@ -5,7 +5,7 @@ This "creatively" named plugin installs a controller and view which creates hand
 
     map.resources :posts
 
-You'd get these (and other) familiar-looking javascript URL helpers:
+You'd get these (and other) familiar-looking javascript URL helpers, as methods under the Routing object:
 
 	Routing.host()              => "http://localhost:3000"
     Routing.posts_url()         => "http://localhost:3000/posts"
@@ -25,7 +25,7 @@ Assuming you are using Rails 2.1 or later, you can use the Rails plugin script:
     $ cd RAILS_ROOT
     $ script/plugin install git://github.com/ripta/js_named_routes.git
 
-This plugin is targeted at Rails 2.1, although it should work in Rails 2.0. Earlier versions of Rails may not be compatible with this plugin.
+This plugin is targeted at Rails 2.1, although it works in Rails 2.0. Earlier versions of Rails may work with this plugin, although not primarily supported.
 
 ### USAGE
 
@@ -63,4 +63,4 @@ Originally authored by Joshua Siereles with some code and the idea coming from [
 
 Some enhancements and Rails 2.1 compatibility added by [Galen O'Hanlon](http://gohanlon.com).
 
-Some enhancements added by [Ripta Pasay](http://twitter.com/rpasay).
+Routing object wrapper and Rails 2.0 compatibility added and cleaned up by [Ripta Pasay](http://twitter.com/rpasay).
