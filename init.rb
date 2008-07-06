@@ -3,6 +3,8 @@ require 'asset_tag_helper'
 
 require 'dispatcher'
 
+ActionView::Helpers::AssetTagHelper.send(:include, JsNamedRoutes::AssetTagHelper)
+
 ActionController::Dispatcher.to_prepare :named_routes_route do
   ::NamedRoutes::ControllerMethods.add_routes
 end
