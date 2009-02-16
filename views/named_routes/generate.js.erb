@@ -1,6 +1,5 @@
 
 var Routing = {
-	host: <%= "#{request.protocol}#{request.host_with_port}".inspect %>,
 
 	get_path: function (segments, options, overrides) {
 		var extras = null;
@@ -46,13 +45,13 @@ var Routing = {
 
         <%= name %>_path: function (overrides) {
                 var options = {
-                        <% route.significant_keys.each do |key| -%>
-                        <%= key %>: <%= route.defaults[key].nil? ? "''" : "'#{route.defaults[key]}'" %>,
-                        <% end -%>
+                        <%= route.significant_keys.collect { |key| "#{key}: '#{route.defaults[key]}'" }.join(",\n\t\t\t") %>
                 };
                 return Routing.get_path("<%= route.segments.collect(&:to_s) %>", options, overrides);
         },
 
 <% end -%>
+
+        host: <%= "#{request.protocol}#{request.host_with_port}".inspect %>
 
 };
